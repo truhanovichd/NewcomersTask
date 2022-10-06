@@ -1,8 +1,9 @@
-﻿namespace NewcomersTask.Models
+﻿namespace NewcomersTask.Web.Models
 {
-    public class OrderSagaResponse
+    public class OrderResponse
     {
         public Guid OrderId { get; set; }
+
         public string? ErrorMessage { get; set; }
     }
 }

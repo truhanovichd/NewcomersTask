@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using NewcomersTask.Models;
+using NewcomersTask.Web.Models;
 
 namespace NewcomersTask.Web.Controllers
 {
@@ -24,25 +25,25 @@ namespace NewcomersTask.Web.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<OrderSagaResponse> CreateAsync(OrderCreateRequest model)
+        public async Task<OrderResponse> CreateAsync(OrderCreateRequest model)
         {
             _logger.LogInformation("Start!");
             var request = _mapper.Map<OrderSaga>(model);
             request.CorrelationId = Guid.NewGuid();
-            var response = await _bus.Request<OrderSaga, OrderSagaResponse>(request);
+            var response = await _bus.Request<OrderSaga, OrderResponse>(request);
             _logger.LogInformation("End!");
 
             return response.Message;
         }
 
         [HttpPost("update")]
-        public async Task<OrderSagaResponse> StatusChangedAsync(OrderStatusChangedRequest model)
+        public async Task<OrderResponse> StatusChangedAsync(OrderStatusChangedRequest model)
         {
             _logger.LogInformation("Start!");
 
             //TODO update code for update status.
             var request = _mapper.Map<OrderSaga>(model);
-            var response = await _bus.Request<OrderSaga, OrderSagaResponse>(request);
+            var response = await _bus.Request<OrderSaga, OrderResponse>(request);
             _logger.LogInformation("End!");
 
             return response.Message;

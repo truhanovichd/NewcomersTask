@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NewcomersTask.Models;
+using NewcomersTask.Web.Models;
 
 namespace NewcomersTask.Web
 {
@@ -7,7 +8,7 @@ namespace NewcomersTask.Web
     {
         public MappingProfile()
         {
-            CreateMap<OrderSagaItemRequest, OrderSagaItem>();
+            CreateMap<OrderItemRequest, OrderSagaItem>();
             CreateMap<OrderCreateRequest, OrderSaga>();
         }
     }

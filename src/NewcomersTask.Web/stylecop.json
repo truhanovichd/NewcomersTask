@@ -1,4 +1,4 @@
-{
+﻿{
   // ACTION REQUIRED: This file was automatically added to your project, but it
   // will not take effect until additional steps are taken to enable it. See the
   // following page for additional information:
@@ -8,10 +8,7 @@
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "documentationRules": {
-      "companyName": "KeepQuesting",
-      "copyrightText": "Copyright © 2021 KeepQuesting. All rights reserved.",
-      "headerDecoration": "------------------------------------------------------------------------------",
-      "documentationCulture": "en-GB"
+      "companyName": "PlaceholderCompany"
     }
   }
 }

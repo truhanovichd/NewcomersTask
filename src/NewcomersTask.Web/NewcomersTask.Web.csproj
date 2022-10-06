@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <None Include="..\RuleSet.ruleset" />
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>

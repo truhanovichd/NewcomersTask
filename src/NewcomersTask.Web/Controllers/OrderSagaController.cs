@@ -25,15 +25,19 @@ namespace NewcomersTask.Web.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<OrderResponse> CreateAsync(OrderCreateRequest model)
+        public async Task CreateAsync(OrderCreateRequest model)
         {
             _logger.LogInformation("Start!");
             var request = _mapper.Map<OrderSaga>(model);
             request.CorrelationId = Guid.NewGuid();
-            var response = await _bus.Request<OrderSaga, OrderResponse>(request);
+
+            var endpoint = await _bus.GetSendEndpoint(new Uri("queue:Test.Queue"));
+            await endpoint.Send(request);
+
+           // var response = await _bus.Request<OrderSaga, OrderResponse>(request);
             _logger.LogInformation("End!");
 
-            return response.Message;
+            //return response.Message;
         }
 
         [HttpPost("update")]

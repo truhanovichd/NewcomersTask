@@ -1,4 +1,5 @@
 using MassTransit;
+using MassTransit.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(Program));

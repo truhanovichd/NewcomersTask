@@ -25,32 +25,39 @@ namespace NewcomersTask.Web.Controllers
         }
 
         [HttpPost("create")]
-        public async Task CreateAsync(OrderCreateRequest model)
+        public async Task CreateAsync(CreateOrderRequest model)
         {
             _logger.LogInformation("Start!");
-            var request = _mapper.Map<OrderSaga>(model);
-            request.CorrelationId = Guid.NewGuid();
-
-            var endpoint = await _bus.GetSendEndpoint(new Uri("queue:Test.Queue"));
+            var request = _mapper.Map<CreateOrder>(model);
+            request.OrderId = Guid.NewGuid();
+            var endpoint = await _bus.GetSendEndpoint(new Uri("exchange:order-state?bind=true&queue=order-state"));
             await endpoint.Send(request);
 
-           // var response = await _bus.Request<OrderSaga, OrderResponse>(request);
             _logger.LogInformation("End!");
-
-            //return response.Message;
         }
 
         [HttpPost("update")]
-        public async Task<OrderResponse> StatusChangedAsync(OrderStatusChangedRequest model)
+        public async Task StatusChangedAsync(ChangedOrderStatusRequest model)
         {
             _logger.LogInformation("Start!");
 
-            //TODO update code for update status.
-            var request = _mapper.Map<OrderSaga>(model);
-            var response = await _bus.Request<OrderSaga, OrderResponse>(request);
-            _logger.LogInformation("End!");
+            var request = _mapper.Map<OrderStatusChanged>(model);
+            var endpoint = await _bus.GetSendEndpoint(new Uri("exchange:order-state?bind=true&queue=order-state"));
+            await endpoint.Send(request);
 
-            return response.Message;
+            _logger.LogInformation("End!");
+        }
+
+        [HttpPost("cancel")]
+        public async Task StatusChangedAsync(CancelOrderRequest model)
+        {
+            _logger.LogInformation("Start!");
+
+            var request = _mapper.Map<OrderCancelled>(model);
+            var endpoint = await _bus.GetSendEndpoint(new Uri("exchange:order-state?bind=true&queue=order-state"));
+            await endpoint.Send(request);
+
+            _logger.LogInformation("End!");
         }
     }
 }

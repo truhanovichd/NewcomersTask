@@ -16,13 +16,12 @@ namespace NewcomersTask.DB.Migrations
                 {
                     CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderNumber = table.Column<int>(type: "integer", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     CustomerName = table.Column<string>(type: "text", nullable: true),
                     CustomerSurname = table.Column<string>(type: "text", nullable: true),
-                    ShippedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CurrentState = table.Column<int>(type: "integer", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
+                    ShippedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CurrentState = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

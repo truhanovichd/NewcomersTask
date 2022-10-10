@@ -3,28 +3,26 @@ using NewcomersTask.Models;
 
 namespace NewcomersTask.Host
 {
-    public sealed partial class OrderStateMachine : MassTransitStateMachine<OrderSaga>
+    public sealed partial class OrderStateMachine : MassTransitStateMachine<OrderState>
     {
-        // public State Initial { get; private set; }
         public State AwaitingPacking { get; private set; }
         public State Packed { get; private set; }
         public State Shipped { get; private set; }
         public State Cancelled { get; private set; }
 
-        public Event<Order> OrderCreated { get; set; }
-        public Event<OrderStatusChanged> OrderStatusChanged { get; set; }
-        //public Event<OrderStatusChanged> OrderCancelled { get; set; }
+        public Event<CreateOrder> OrderCreated { get; private set; }
+        public Event<OrderStatusChanged> OrderStatusChanged { get; private set; }
+        public Event<OrderCancelled> OrderCancelled { get; private set; }
 
         public OrderStateMachine()
         {
-            //InstanceState(x => x.CurrentState, Initial, AwaitingPacking, Packed, Shipped, Cancelled);
-
-            InstanceState(x => x.CurrentState);
+            InstanceState(x => x.CurrentState, AwaitingPacking, Packed, Shipped, Cancelled);
 
             Initially(
                 When(OrderCreated)
                     .Then((x) =>
                     {
+                        x.Saga.CorrelationId = x.Message.OrderId;
                         x.Saga.CustomerSurname = x.Message.CustomerSurname;
                         x.Saga.CustomerName = x.Message.CustomerName;
                         x.Saga.OrderNumber = x.Message.OrderNumber;
@@ -38,6 +36,7 @@ namespace NewcomersTask.Host
                     .Then((x) =>
                     {
                         x.Saga.CorrelationId = x.Message.CorrelationId;
+                        //x.Saga.CorrelationId = x.Message.OrderId;
                         x.Saga.OrderDate = DateTime.Now;
                     })
                     .TransitionTo(Packed));
@@ -47,14 +46,16 @@ namespace NewcomersTask.Host
                     .Then((x) =>
                     {
                         x.Saga.CorrelationId = x.Message.CorrelationId;
+                        //x.Saga.CorrelationId = x.Message.OrderId;
                         x.Saga.OrderDate = DateTime.Now;
                     })
                     .TransitionTo(Shipped));
 
-            //During(AwaitingPacking, Packed, Shipped,
-            //    When(OrderCancelled).TransitionTo(Cancelled));
+            During(AwaitingPacking,
+                When(OrderCancelled).TransitionTo(Cancelled));
 
-            Event(() => OrderCreated, x => x.CorrelateById(y => (Guid)y.CorrelationId));
+            Event(() => OrderCreated, x => x.CorrelateById(context => context.Message.OrderId));
+            Event(() => OrderStatusChanged);
         }
     }
 }

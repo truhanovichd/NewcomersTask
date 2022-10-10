@@ -5,9 +5,9 @@ using NewcomersTask.Models;
 
 namespace NewcomersTask.DB
 {
-    public class OrderStateMap : SagaClassMap<OrderSaga>
+    public class OrderStateMap : SagaClassMap<OrderState>
     {
-        protected override void Configure(EntityTypeBuilder<OrderSaga> entity, ModelBuilder model)
+        protected override void Configure(EntityTypeBuilder<OrderState> entity, ModelBuilder model)
         {
             entity.Property(x => x.CurrentState).HasMaxLength(64);
             entity.Property(x => x.OrderDate);

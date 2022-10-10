@@ -1,6 +1,6 @@
 ﻿namespace NewcomersTask.Web.Models
 {
-    public class OrderCreateRequest
+    public class CreateOrderRequest
     {
         public int OrderNumber { get; set; }
 

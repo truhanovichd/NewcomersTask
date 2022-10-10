@@ -33,31 +33,16 @@ builder.Services.AddSwaggerGen();
 //        });
 //    cfg.SetKebabCaseEndpointNameFormatter();
 //    cfg.AddDelayedMessageScheduler();
-//    cfg.UsingRabbitMq((brc, rbfc) =>
-//    {
-//        rbfc.UseInMemoryOutbox();
-//        rbfc.UseMessageRetry(r =>
-//        {
-//            r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-//        });
-//        rbfc.UseDelayedMessageScheduler();
-//        rbfc.Host("localhost", h =>
-//        {
-//            h.Username("guest");
-//            h.Password("guest");
-//        });
-//        //rbfc.ConfigureEndpoints(brc);
-//    });
 //});
 
 builder.Services.AddDbContext<SagaContext>(options => options.UseNpgsql(builder.Configuration.GetSection("ConnectionStrings:ServerConnection").Value));
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddMassTransit(cfg =>
 {
     cfg.SetKebabCaseEndpointNameFormatter();
     cfg.AddDelayedMessageScheduler();
-    cfg.AddSagaStateMachine<OrderStateMachine, OrderSaga > ()
+    cfg.AddSagaStateMachine<OrderStateMachine, OrderState>()
     .EntityFrameworkRepository(r =>
     {
         r.ConcurrencyMode = ConcurrencyMode.Pessimistic;

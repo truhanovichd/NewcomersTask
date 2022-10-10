@@ -1,7 +1,9 @@
 ﻿namespace NewcomersTask.Models
 {
-    public class Order
+    public class CreateOrder
     {
+        public Guid OrderId { get; set; }
+
         public int OrderNumber { get; set; }
 
         public DateTime OrderDate { get; set; }

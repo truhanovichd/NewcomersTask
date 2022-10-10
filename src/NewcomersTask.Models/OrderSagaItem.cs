@@ -16,7 +16,7 @@ namespace NewcomersTask.Models
         public int Quantity { get; set; }
 
         [JsonIgnore]
-        public OrderSaga? OrderSaga { get; set; }
+        public OrderState? OrderSaga { get; set; }
 
     }
 }

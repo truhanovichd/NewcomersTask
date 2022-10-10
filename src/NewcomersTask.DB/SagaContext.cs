@@ -9,6 +9,8 @@ namespace NewcomersTask.DB
         public SagaContext(DbContextOptions options)
             : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         }
 
         protected override IEnumerable<ISagaClassMap> Configurations

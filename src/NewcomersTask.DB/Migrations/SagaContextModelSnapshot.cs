@@ -22,43 +22,6 @@ namespace NewcomersTask.DB.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("NewcomersTask.Models.OrderSaga", b =>
-                {
-                    b.Property<Guid>("CorrelationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("CurrentState")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("CustomerName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CustomerSurname")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("OrderNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<DateTime>("ShippedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("CorrelationId");
-
-                    b.ToTable("OrderSaga");
-                });
-
             modelBuilder.Entity("NewcomersTask.Models.OrderSagaItem", b =>
                 {
                     b.Property<int>("Id")
@@ -87,16 +50,49 @@ namespace NewcomersTask.DB.Migrations
                     b.ToTable("OrderSagaItem");
                 });
 
+            modelBuilder.Entity("NewcomersTask.Models.OrderState", b =>
+                {
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("CurrentState")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CustomerSurname")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ShippedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("CorrelationId");
+
+                    b.ToTable("OrderSaga");
+                });
+
             modelBuilder.Entity("NewcomersTask.Models.OrderSagaItem", b =>
                 {
-                    b.HasOne("NewcomersTask.Models.OrderSaga", "OrderSaga")
+                    b.HasOne("NewcomersTask.Models.OrderState", "OrderSaga")
                         .WithMany("OrderSagaItem")
                         .HasForeignKey("OrderCorrelationId");
 
                     b.Navigation("OrderSaga");
                 });
 
-            modelBuilder.Entity("NewcomersTask.Models.OrderSaga", b =>
+            modelBuilder.Entity("NewcomersTask.Models.OrderState", b =>
                 {
                     b.Navigation("OrderSagaItem");
                 });

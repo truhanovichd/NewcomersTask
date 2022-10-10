@@ -8,8 +8,10 @@ namespace NewcomersTask.Web
     {
         public MappingProfile()
         {
-            CreateMap<OrderItemRequest, OrderSagaItem>();
-            CreateMap<OrderCreateRequest, OrderSaga>();
+            CreateMap<OrderItemRequest, OrderItem>();
+            CreateMap<CreateOrderRequest, CreateOrder>();
+            CreateMap<ChangedOrderStatusRequest, OrderStatusChanged>().ForMember(dest => dest.CorrelationId, act => act.MapFrom(src => src.OrderId));
+            CreateMap<CancelOrderRequest, OrderCancelled>().ForMember(dest => dest.CorrelationId, act => act.MapFrom(src => src.OrderId));
         }
     }
 }

@@ -1,17 +1,27 @@
-﻿using MassTransit;
+﻿// <copyright file="OrderStateMachine.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using MassTransit;
 using NewcomersTask.Models;
+using NewcomersTask.Models.DB;
 
 namespace NewcomersTask.Host
 {
     public sealed partial class OrderStateMachine : MassTransitStateMachine<OrderState>
     {
         public State AwaitingPacking { get; private set; }
+
         public State Packed { get; private set; }
+
         public State Shipped { get; private set; }
+
         public State Cancelled { get; private set; }
 
-        public Event<CreateOrder> OrderCreated { get; private set; }
+        public Event<OrderCreated> OrderCreated { get; private set; }
+
         public Event<OrderStatusChanged> OrderStatusChanged { get; private set; }
+
         public Event<OrderCancelled> OrderCancelled { get; private set; }
 
         public OrderStateMachine()
@@ -31,31 +41,31 @@ namespace NewcomersTask.Host
                     })
                     .TransitionTo(AwaitingPacking));
 
-            During(AwaitingPacking,
+            During(
+                AwaitingPacking,
                 When(OrderStatusChanged)
                     .Then((x) =>
                     {
                         x.Saga.CorrelationId = x.Message.CorrelationId;
-                        //x.Saga.CorrelationId = x.Message.OrderId;
-                        x.Saga.OrderDate = DateTime.Now;
+                        x.Saga.UpdatedDate = DateTime.Now;
                     })
                     .TransitionTo(Packed));
 
-            During(Packed,
+            During(
+                Packed,
                 When(OrderStatusChanged)
                     .Then((x) =>
                     {
                         x.Saga.CorrelationId = x.Message.CorrelationId;
-                        //x.Saga.CorrelationId = x.Message.OrderId;
-                        x.Saga.OrderDate = DateTime.Now;
+                        x.Saga.ShippedDate = DateTime.Now;
                     })
                     .TransitionTo(Shipped));
 
-            During(AwaitingPacking,
-                When(OrderCancelled).TransitionTo(Cancelled));
+            During(AwaitingPacking, Packed, Shipped, When(OrderCancelled).TransitionTo(Cancelled));
 
             Event(() => OrderCreated, x => x.CorrelateById(context => context.Message.OrderId));
             Event(() => OrderStatusChanged);
+            Event(() => OrderCancelled);
         }
     }
 }

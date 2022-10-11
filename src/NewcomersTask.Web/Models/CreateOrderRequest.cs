@@ -1,4 +1,8 @@
-﻿namespace NewcomersTask.Web.Models
+﻿// <copyright file="CreateOrderRequest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace NewcomersTask.Web.Models
 {
     public class CreateOrderRequest
     {

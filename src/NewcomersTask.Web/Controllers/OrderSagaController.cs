@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿// <copyright file="OrderSagaController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using AutoMapper;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using NewcomersTask.Models;
@@ -28,7 +32,7 @@ namespace NewcomersTask.Web.Controllers
         public async Task CreateAsync(CreateOrderRequest model)
         {
             _logger.LogInformation("Start!");
-            var request = _mapper.Map<CreateOrder>(model);
+            var request = _mapper.Map<OrderCreated>(model);
             request.OrderId = Guid.NewGuid();
             var endpoint = await _bus.GetSendEndpoint(new Uri("exchange:order-state?bind=true&queue=order-state"));
             await endpoint.Send(request);

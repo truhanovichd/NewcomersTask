@@ -1,7 +1,7 @@
 ﻿using MassTransit;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using NewcomersTask.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NewcomersTask.Models.DB;
 
 namespace NewcomersTask.DB
 {

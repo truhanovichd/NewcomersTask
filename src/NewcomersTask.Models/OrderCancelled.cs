@@ -1,4 +1,8 @@
-﻿namespace NewcomersTask.Models
+﻿// <copyright file="OrderCancelled.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace NewcomersTask.Models
 {
     public class OrderCancelled
     {

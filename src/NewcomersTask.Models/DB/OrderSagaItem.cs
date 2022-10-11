@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace NewcomersTask.Models
+namespace NewcomersTask.Models.DB
 {
     [Table("OrderSagaItem")]
     public class OrderSagaItem
@@ -17,6 +17,5 @@ namespace NewcomersTask.Models
 
         [JsonIgnore]
         public OrderState? OrderSaga { get; set; }
-
     }
 }

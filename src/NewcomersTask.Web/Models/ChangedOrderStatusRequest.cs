@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using NewcomersTask.Models;
+
 namespace NewcomersTask.Web.Models
 {
     public class ChangedOrderStatusRequest

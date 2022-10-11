@@ -1,6 +1,6 @@
 ﻿using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
-using NewcomersTask.Models;
+using NewcomersTask.Models.DB;
 
 namespace NewcomersTask.DB
 {

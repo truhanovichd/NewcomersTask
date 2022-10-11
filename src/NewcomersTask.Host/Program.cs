@@ -1,39 +1,21 @@
+// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using NewcomersTask.DB;
 using NewcomersTask.Host;
-using NewcomersTask.Models;
-using System.Reflection;
+using NewcomersTask.Models.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//builder.Services.AddMassTransit(cfg =>
-//{
-
-//    cfg.AddSagaStateMachine<OrderStateMachine, OrderSaga>()
-//        .EntityFrameworkRepository(r =>
-//        {
-//            r.ConcurrencyMode = ConcurrencyMode.Pessimistic; // or use Optimistic, which requires RowVersion
-//            r.AddDbContext<DbContext, SagaContext>((provider, builderContext) =>
-//            {
-//                builderContext.UseNpgsql(builder.Configuration.GetSection("ConnectionStrings:ServerConnection").Value, m =>
-//                {
-//                    m.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
-//                    m.MigrationsHistoryTable($"__{nameof(SagaContext)}");
-//                });
-//            });
-//            //r.ExistingDbContext<SagaContext>();
-//            //r.LockStatementProvider = new PostgresLockStatementProvider();
-//        });
-//    cfg.SetKebabCaseEndpointNameFormatter();
-//    cfg.AddDelayedMessageScheduler();
-//});
 
 builder.Services.AddDbContext<SagaContext>(options => options.UseNpgsql(builder.Configuration.GetSection("ConnectionStrings:ServerConnection").Value));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -57,10 +39,10 @@ builder.Services.AddMassTransit(cfg =>
             r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
         });
         rbfc.UseDelayedMessageScheduler();
-        rbfc.Host("localhost", h =>
+        rbfc.Host(builder.Configuration.GetSection("RabbitMq:Host").Value, h =>
         {
-            h.Username("guest");
-            h.Password("guest");
+            h.Username(builder.Configuration.GetSection("RabbitMq:Username").Value);
+            h.Password(builder.Configuration.GetSection("RabbitMq:Password").Value);
         });
         rbfc.ConfigureEndpoints(brc);
     });

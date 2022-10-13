@@ -16,8 +16,7 @@
         <tr>
             <td>Status: </td>
             <td>
-                @Html.TextBoxFor(m => m.Status, new { type = "number", min = "0", step = "1" })
-                @*@Html.DropDownList("Status",  Html.GetEnumSelectList<Status>(), "Select Status", new { @class = "form-control" })*@
+                @Html.DropDownList("Status",  Html.GetEnumSelectList<NewcomersTask.Models.Status>(), "Select Status", new { @class = "form-control" })
             </td>
         </tr>
         <tr>

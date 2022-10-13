@@ -1,0 +1,22 @@
+﻿@page
+@using NewcomersTask.Web.Models
+@model Cancel
+@using (Html.BeginForm("cancel", "OrderSaga", FormMethod.Post))
+{
+    
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th colspan="2" align="center">Order</th>
+        </tr>
+        <tr>
+            <td>Order number: </td>
+            <td>
+                @Html.TextBoxFor(m => m.Model.OrderId)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"  /></td>
+        </tr>
+    </table>
+}

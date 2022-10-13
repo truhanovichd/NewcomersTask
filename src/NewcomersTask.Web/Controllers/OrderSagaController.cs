@@ -10,7 +10,7 @@ using NewcomersTask.Web.Models;
 
 namespace NewcomersTask.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OrderSagaController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace NewcomersTask.Web.Controllers
         }
 
         [HttpPost("create")]
-        public async Task CreateAsync(CreateOrderRequest model)
+        public async Task CreateAsync([FromForm] CreateOrderRequest model)
         {
             _logger.LogInformation("Start!");
             var request = _mapper.Map<OrderCreated>(model);
@@ -41,7 +41,7 @@ namespace NewcomersTask.Web.Controllers
         }
 
         [HttpPost("update")]
-        public async Task StatusChangedAsync(ChangedOrderStatusRequest model)
+        public async Task StatusChangedAsync([FromForm] ChangedOrderStatusRequest model)
         {
             _logger.LogInformation("Start!");
 
@@ -53,7 +53,7 @@ namespace NewcomersTask.Web.Controllers
         }
 
         [HttpPost("cancel")]
-        public async Task StatusChangedAsync(CancelOrderRequest model)
+        public async Task StatusChangedAsync([FromForm] CancelOrderRequest model)
         {
             _logger.LogInformation("Start!");
 

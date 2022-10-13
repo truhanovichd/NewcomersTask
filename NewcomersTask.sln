@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewcomersTask.Host", "src\N
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{73CC73C4-489B-4990-AE9E-F8FAB8FD69E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewcomersTask.Test", "tests\NewcomersTask.Test\NewcomersTask.Test.csproj", "{E3DDFA0F-731E-4F19-BE72-F3941C15948E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewcomersTask.Test", "tests\NewcomersTask.Test\NewcomersTask.Test.csproj", "{E3DDFA0F-731E-4F19-BE72-F3941C15948E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

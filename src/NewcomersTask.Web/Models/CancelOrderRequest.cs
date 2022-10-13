@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace NewcomersTask.Web.Models
 {
     public class CancelOrderRequest
